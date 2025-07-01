@@ -1,0 +1,26 @@
+
+export const AnimatedLogo = () => {
+  return (
+    <div className="flex items-center space-x-3">
+      <div className="relative group">
+        {/* 3D Book Animation */}
+        <div className="book-3d transform-gpu transition-all duration-500 hover:scale-110">
+          <div className="w-10 h-8 bg-gradient-to-r from-[#D4AF37] to-[#f4d03f] rounded-sm shadow-lg relative transform perspective-1000 hover:rotate-y-12">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/80 to-transparent rounded-sm"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#0F0616] text-xs font-bold">
+              ⚖️
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Animated Text */}
+      <div className="logo-text">
+        <h1 className="text-2xl font-serif font-bold bg-gradient-to-r from-[#D4AF37] to-[#f4d03f] bg-clip-text text-transparent animate-fade-in">
+          Legal Associates
+        </h1>
+        <div className="h-0.5 bg-gradient-to-r from-[#D4AF37] to-transparent animate-[slide-in-right_1s_ease-out]"></div>
+      </div>
+    </div>
+  );
+};
