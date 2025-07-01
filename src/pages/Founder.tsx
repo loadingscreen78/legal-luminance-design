@@ -84,8 +84,8 @@ const Founder = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop"
-                    alt="Founder"
+                    src="/lovable-uploads/22fb7bfd-70bd-48be-8584-6455e596dd93.png"
+                    alt="Founder of Legal Associates"
                     className="w-full h-96 object-cover rounded-xl shadow-lg"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F0616]/40 to-transparent rounded-xl"></div>
