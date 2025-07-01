@@ -1,9 +1,6 @@
 
-import { useState, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
 import { HeroSection } from '@/components/home/HeroSection';
 import { TopJournalsCarousel } from '@/components/home/TopJournalsCarousel';
 import { AboutSection } from '@/components/home/AboutSection';
@@ -16,7 +13,7 @@ import { CallToActionFooter } from '@/components/home/CallToActionFooter';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#F5F5F9] text-[#222222]">
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
       
       {/* Hero Section */}

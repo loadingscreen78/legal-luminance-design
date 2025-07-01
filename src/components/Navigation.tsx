@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatedLogo } from './AnimatedLogo';
+import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { CartDrawer } from './CartDrawer';
 import { useCart } from '@/contexts/CartContext';
@@ -36,7 +37,7 @@ export const Navigation = () => {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
+          ? 'bg-background/95 backdrop-blur-md shadow-lg border-b border-border' 
           : 'bg-transparent'
       }`}>
         <div className="container mx-auto px-4 py-4">
@@ -54,7 +55,7 @@ export const Navigation = () => {
                     className={`relative overflow-hidden transition-all duration-300 hover:scale-105 ${
                       isActive(item.path) 
                         ? 'bg-[#3454D1] text-white font-semibold' 
-                        : `${isScrolled ? 'text-[#222222]' : 'text-white'} hover:text-[#3454D1] hover:bg-[#3454D1]/10`
+                        : 'text-foreground hover:text-[#3454D1] hover:bg-[#3454D1]/10'
                     }`}
                   >
                     <span className="relative z-10">{item.label}</span>
@@ -62,17 +63,19 @@ export const Navigation = () => {
                 </Link>
               ))}
               
+              <ThemeToggle />
               <CartDrawer />
             </div>
 
             {/* Mobile Menu Button */}
             <div className="lg:hidden flex items-center space-x-2">
+              <ThemeToggle />
               <CartDrawer />
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`${isScrolled ? 'text-[#222222]' : 'text-white'}`}
+                className="text-foreground"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </Button>
@@ -81,7 +84,7 @@ export const Navigation = () => {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden mt-4 pb-4 border-t border-gray-200">
+            <div className="lg:hidden mt-4 pb-4 border-t border-border">
               <div className="flex flex-col space-y-2 mt-4">
                 {navItems.map((item) => (
                   <Link key={item.path} to={item.path} onClick={() => setIsMobileMenuOpen(false)}>
@@ -90,7 +93,7 @@ export const Navigation = () => {
                       className={`w-full justify-start ${
                         isActive(item.path) 
                           ? 'bg-[#3454D1] text-white' 
-                          : 'text-[#222222] hover:text-[#3454D1] hover:bg-[#3454D1]/10'
+                          : 'text-foreground hover:text-[#3454D1] hover:bg-[#3454D1]/10'
                       }`}
                     >
                       {item.label}
