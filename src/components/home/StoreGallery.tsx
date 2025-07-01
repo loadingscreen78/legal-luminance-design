@@ -4,39 +4,39 @@ import { useState } from 'react';
 const galleryImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
-    alt: "Book Collection",
-    title: "Extensive Legal Collection"
+    src: "/lovable-uploads/d90dde4b-fcdf-452e-9612-348fa7878292.png",
+    alt: "Legal Associates Store Front",
+    title: "Our Main Store in Cuttack"
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
-    alt: "Reading Area",
-    title: "Comfortable Reading Space"
+    src: "/lovable-uploads/ea49d3b2-43d9-4804-a469-5140b187a2cd.png",
+    alt: "Book Collection Shelves",
+    title: "Extensive Legal Collection"
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=600&fit=crop",
-    alt: "Legal Books",
-    title: "Premium Legal Literature"
+    src: "/lovable-uploads/05aad5e3-2ff1-4e0e-b661-9e54d1abc8f8.png",
+    alt: "Book Storage Area",
+    title: "Organized Book Storage"
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=400&fit=crop",
-    alt: "Store Interior",
-    title: "Modern Store Layout"
+    src: "/lovable-uploads/3aae5ba8-c193-41c2-9091-ae565a588bd4.png",
+    alt: "Book Aisle",
+    title: "Browse Our Collection"
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=350&fit=crop",
-    alt: "Book Stacks",
-    title: "Organized Book Sections"
+    src: "/lovable-uploads/bd9562f0-5286-4441-82a0-f16eac646a5f.png",
+    alt: "Legal Books Stack",
+    title: "Premium Legal Literature"
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=450&fit=crop",
-    alt: "Study Corner",
-    title: "Quiet Study Areas"
+    src: "/lovable-uploads/cef2bd9f-6509-4ace-be37-df626c82073e.png",
+    alt: "Archive Collection",
+    title: "Historical Legal Archives"
   }
 ];
 

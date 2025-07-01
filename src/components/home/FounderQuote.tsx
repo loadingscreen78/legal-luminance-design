@@ -30,8 +30,8 @@ export const FounderQuote = () => {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop"
-                alt="Founder"
+                src="/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png"
+                alt="Founder of Legal Associates"
                 className="w-full h-96 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />

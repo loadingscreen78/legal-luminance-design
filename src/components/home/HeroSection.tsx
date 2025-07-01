@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 
 const heroSlides = [
   {
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop",
+    image: "/lovable-uploads/d90dde4b-fcdf-452e-9612-348fa7878292.png",
     title: "Empowering Legal Minds Since Decades",
     subtitle: "Your trusted partner in legal publishing, journals, and law books."
   },
   {
-    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&h=1080&fit=crop",
+    image: "/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png",
     title: "Premium Legal Publications",
     subtitle: "Quality content for legal professionals across India"
   },
   {
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1920&h=1080&fit=crop",
+    image: "/lovable-uploads/ea49d3b2-43d9-4804-a469-5140b187a2cd.png",
     title: "Trusted by Legal Professionals",
     subtitle: "Excellence in legal education and professional development"
   }

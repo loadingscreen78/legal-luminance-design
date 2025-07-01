@@ -7,28 +7,28 @@ const journals = [
   {
     id: 1,
     title: "Orissa High Court Digest",
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&h=400&fit=crop",
+    image: "/lovable-uploads/bd9562f0-5286-4441-82a0-f16eac646a5f.png",
     description: "Comprehensive digest of Orissa High Court judgments",
     year: "2024"
   },
   {
     id: 2,
     title: "Criminal Major Acts",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop",
+    image: "/lovable-uploads/bd9562f0-5286-4441-82a0-f16eac646a5f.png",
     description: "Complete compilation of criminal law statutes",
     year: "2024"
   },
   {
     id: 3,
     title: "Civil Procedure Code Commentary",
-    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop",
+    image: "/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png",
     description: "In-depth analysis of Civil Procedure Code",
     year: "2023"
   },
   {
     id: 4,
     title: "Bare Acts Collection",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=400&fit=crop",
+    image: "/lovable-uploads/cef2bd9f-6509-4ace-be37-df626c82073e.png",
     description: "Essential legal acts and amendments",
     year: "2024"
   }

@@ -6,8 +6,8 @@ export const AboutSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=500&fit=crop"
-              alt="Legal Associates Store"
+              src="/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png"
+              alt="Legal Associates Store - Founder with Books"
               className="rounded-2xl shadow-2xl w-full h-96 object-cover"
             />
             <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-[#3454D1] rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
