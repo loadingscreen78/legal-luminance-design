@@ -36,7 +36,7 @@ export const Navigation = () => {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-[#0F0616]/95 backdrop-blur-md shadow-2xl shadow-[#D4AF37]/20' 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
           : 'bg-transparent'
       }`}>
         <div className="container mx-auto px-4 py-4">
@@ -53,12 +53,11 @@ export const Navigation = () => {
                     variant={isActive(item.path) ? "default" : "ghost"}
                     className={`relative overflow-hidden transition-all duration-300 hover:scale-105 ${
                       isActive(item.path) 
-                        ? 'bg-[#D4AF37] text-[#0F0616] font-semibold' 
-                        : 'text-white hover:text-[#D4AF37] hover:bg-[#D4AF37]/10'
+                        ? 'bg-[#3454D1] text-white font-semibold' 
+                        : `${isScrolled ? 'text-[#222222]' : 'text-white'} hover:text-[#3454D1] hover:bg-[#3454D1]/10`
                     }`}
                   >
                     <span className="relative z-10">{item.label}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/20 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
                   </Button>
                 </Link>
               ))}
@@ -73,7 +72,7 @@ export const Navigation = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-[#D4AF37]"
+                className={`${isScrolled ? 'text-[#222222]' : 'text-white'}`}
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </Button>
@@ -82,7 +81,7 @@ export const Navigation = () => {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden mt-4 pb-4 border-t border-[#D4AF37]/20">
+            <div className="lg:hidden mt-4 pb-4 border-t border-gray-200">
               <div className="flex flex-col space-y-2 mt-4">
                 {navItems.map((item) => (
                   <Link key={item.path} to={item.path} onClick={() => setIsMobileMenuOpen(false)}>
@@ -90,8 +89,8 @@ export const Navigation = () => {
                       variant={isActive(item.path) ? "default" : "ghost"}
                       className={`w-full justify-start ${
                         isActive(item.path) 
-                          ? 'bg-[#D4AF37] text-[#0F0616]' 
-                          : 'text-white hover:text-[#D4AF37] hover:bg-[#D4AF37]/10'
+                          ? 'bg-[#3454D1] text-white' 
+                          : 'text-[#222222] hover:text-[#3454D1] hover:bg-[#3454D1]/10'
                       }`}
                     >
                       {item.label}
