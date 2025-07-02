@@ -5,14 +5,19 @@ import { Link } from 'react-router-dom';
 
 const heroSlides = [
   {
-    image: "/lovable-uploads/d90dde4b-fcdf-452e-9612-348fa7878292.png",
+    image: "/lovable-uploads/10415a62-f1ba-4604-abce-029d57d3c401.png",
     title: "Empowering Legal Minds Since Decades",
     subtitle: "Your trusted partner in legal publishing, journals, and law books."
   },
   {
-    image: "/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png",
+    image: "/lovable-uploads/d90dde4b-fcdf-452e-9612-348fa7878292.png",
     title: "Premium Legal Publications",
     subtitle: "Quality content for legal professionals across India"
+  },
+  {
+    image: "/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png",
+    title: "Professional Legal Resources",
+    subtitle: "Comprehensive collection for legal education and practice"
   },
   {
     image: "/lovable-uploads/ea49d3b2-43d9-4804-a469-5140b187a2cd.png",
