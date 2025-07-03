@@ -22,7 +22,7 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => {
+const AppContent = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,27 +38,33 @@ const App = () => {
   }
 
   return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/journals" element={<Journals />} />
+        <Route path="/journal/:id" element={<JournalDetails />} />
+        <Route path="/books" element={<Books />} />
+        <Route path="/founder" element={<Founder />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/visit-store" element={<VisitStore />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+const App = () => {
+  return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <ThemeProvider>
           <CartProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/journals" element={<Journals />} />
-                <Route path="/journal/:id" element={<JournalDetails />} />
-                <Route path="/books" element={<Books />} />
-                <Route path="/founder" element={<Founder />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/visit-store" element={<VisitStore />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/payment" element={<Payment />} />
-                <Route path="/order-success" element={<OrderSuccess />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
+            <AppContent />
           </CartProvider>
         </ThemeProvider>
       </TooltipProvider>
