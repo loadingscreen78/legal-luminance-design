@@ -1,9 +1,11 @@
 
 import { useEffect, useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const AnimatedLoader = () => {
   const [text, setText] = useState('');
-  const fullText = 'Loading Legal Intelligence...';
+  const { theme } = useTheme();
+  const fullText = 'Loading Legal Associates...';
 
   useEffect(() => {
     let index = 0;
@@ -19,45 +21,102 @@ export const AnimatedLoader = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
+    <div className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
+      theme === 'dark' ? 'bg-[#0F0F0F]' : 'bg-[#F8F9FA]'
+    }`}>
       <div className="text-center">
-        {/* Animated Book */}
-        <div className="relative mb-8">
-          <div className="w-32 h-24 mx-auto animate-pulse">
-            <div className="book-container relative">
-              <div className="book animate-[scale-in_2s_ease-in-out_infinite] bg-gradient-to-r from-[#3454D1] to-[#F9A826] rounded-lg shadow-2xl transform-gpu">
-                <div className="book-cover w-32 h-24 rounded-lg border-4 border-[#3454D1] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#3454D1]/20 to-transparent"></div>
-                  <div className="absolute top-2 left-2 text-white font-bold text-xs">LEGAL</div>
-                  <div className="absolute bottom-2 left-2 text-white font-bold text-xs">ASSOCIATES</div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="w-8 h-8 text-white">⚖️</div>
-                  </div>
+        {/* Gavel Animation Container */}
+        <div className="relative mb-12">
+          {/* Podium/Base */}
+          <div className={`w-32 h-6 mx-auto rounded-lg shadow-lg ${
+            theme === 'dark' ? 'bg-gradient-to-r from-gray-800 to-gray-700' : 'bg-gradient-to-r from-gray-200 to-gray-300'
+          }`}></div>
+          
+          {/* Legal Book */}
+          <div className="relative -mt-2 mx-auto w-24 h-16 bg-gradient-to-br from-[#2D3E50] to-[#34495E] rounded-md shadow-2xl transform perspective-1000">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/20 to-transparent rounded-md"></div>
+            <div className="absolute top-2 left-2 right-2 text-center">
+              <div className="text-[#D4AF37] text-xs font-serif font-bold">LEGAL</div>
+              <div className="text-[#D4AF37] text-xs font-serif font-bold">CODE</div>
+            </div>
+            
+            {/* Ripple Effect */}
+            <div className="absolute -inset-4 rounded-full border-2 border-[#D4AF37] opacity-0 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+          </div>
+
+          {/* Gavel */}
+          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 animate-[gavel-strike_2s_ease-in-out_infinite]">
+            <div className="relative">
+              {/* Gavel Handle */}
+              <div className="w-1 h-12 bg-gradient-to-b from-[#8B4513] to-[#654321] rounded-full mx-auto shadow-lg"></div>
+              
+              {/* Gavel Head */}
+              <div className="relative -mt-1">
+                <div className="w-8 h-4 bg-gradient-to-r from-[#8B4513] to-[#654321] rounded-lg shadow-xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/30 to-transparent rounded-lg"></div>
+                  {/* Gold Band */}
+                  <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-[#D4AF37] transform -translate-y-1/2"></div>
                 </div>
               </div>
             </div>
           </div>
-          
-          {/* Rotating pages effect */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
-            <div className="w-28 h-20 bg-white/30 rounded animate-[fade-in_1s_ease-in-out_infinite] shadow-lg"></div>
-          </div>
+
+          {/* Impact Glow */}
+          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-[#D4AF37] rounded-full opacity-0 animate-[impact-glow_2s_ease-in-out_infinite]"></div>
         </div>
 
-        {/* Typewriter text */}
-        <div className="text-[#3454D1] text-xl font-serif mb-4">
+        {/* Loading Text */}
+        <div className={`text-xl font-serif mb-4 transition-colors duration-300 ${
+          theme === 'dark' ? 'text-[#F0F0F0]' : 'text-[#2D3E50]'
+        }`}>
           {text}
           <span className="animate-pulse">|</span>
         </div>
 
-        {/* Background legal icons */}
-        <div className="fixed inset-0 pointer-events-none opacity-5">
-          <div className="absolute top-20 left-20 text-6xl animate-float text-[#3454D1]">📚</div>
-          <div className="absolute top-40 right-20 text-6xl animate-float text-[#F9A826]" style={{animationDelay: '1s'}}>⚖️</div>
-          <div className="absolute bottom-40 left-40 text-6xl animate-float text-[#3454D1]" style={{animationDelay: '2s'}}>🏛️</div>
-          <div className="absolute bottom-20 right-40 text-6xl animate-float text-[#F9A826]" style={{animationDelay: '3s'}}>📜</div>
+        {/* Subtitle */}
+        <div className={`text-sm font-sans opacity-70 transition-colors duration-300 ${
+          theme === 'dark' ? 'text-[#F0F0F0]' : 'text-[#333333]'
+        }`}>
+          Preparing your legal resources
         </div>
       </div>
+
+      {/* Custom Keyframes in Style Tag */}
+      <style jsx>{`
+        @keyframes gavel-strike {
+          0%, 20% {
+            transform: translateX(-50%) translateY(-20px) rotate(-15deg);
+          }
+          40% {
+            transform: translateX(-50%) translateY(0px) rotate(0deg);
+          }
+          45% {
+            transform: translateX(-50%) translateY(2px) rotate(2deg);
+          }
+          50%, 100% {
+            transform: translateX(-50%) translateY(-20px) rotate(-15deg);
+          }
+        }
+
+        @keyframes impact-glow {
+          0%, 35% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.5);
+          }
+          40% {
+            opacity: 0.8;
+            transform: translateX(-50%) scale(1);
+          }
+          55% {
+            opacity: 0;
+            transform: translateX(-50%) scale(1.5);
+          }
+          100% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.5);
+          }
+        }
+      `}</style>
     </div>
   );
 };
