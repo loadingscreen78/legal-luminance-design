@@ -155,6 +155,41 @@ All colors MUST be HSL.
   }
 }
 
+/* Gavel Loader Animations */
+@keyframes gavel-strike {
+  0%, 20% {
+    transform: translateX(-50%) translateY(-20px) rotate(-15deg);
+  }
+  40% {
+    transform: translateX(-50%) translateY(0px) rotate(0deg);
+  }
+  45% {
+    transform: translateX(-50%) translateY(2px) rotate(2deg);
+  }
+  50%, 100% {
+    transform: translateX(-50%) translateY(-20px) rotate(-15deg);
+  }
+}
+
+@keyframes impact-glow {
+  0%, 35% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+  40% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1);
+  }
+  55% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.8s ease-out forwards;
 }
@@ -173,6 +208,14 @@ All colors MUST be HSL.
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+.animate-gavel-strike {
+  animation: gavel-strike 2s ease-in-out infinite;
+}
+
+.animate-impact-glow {
+  animation: impact-glow 2s ease-in-out infinite;
 }
 
 /* Book 3D Effect */

@@ -45,7 +45,7 @@ export const AnimatedLoader = () => {
           </div>
 
           {/* Gavel */}
-          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 animate-[gavel-strike_2s_ease-in-out_infinite]">
+          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 animate-gavel-strike">
             <div className="relative">
               {/* Gavel Handle */}
               <div className="w-1 h-12 bg-gradient-to-b from-[#8B4513] to-[#654321] rounded-full mx-auto shadow-lg"></div>
@@ -62,7 +62,7 @@ export const AnimatedLoader = () => {
           </div>
 
           {/* Impact Glow */}
-          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-[#D4AF37] rounded-full opacity-0 animate-[impact-glow_2s_ease-in-out_infinite]"></div>
+          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-[#D4AF37] rounded-full opacity-0 animate-impact-glow"></div>
         </div>
 
         {/* Loading Text */}
@@ -80,43 +80,6 @@ export const AnimatedLoader = () => {
           Preparing your legal resources
         </div>
       </div>
-
-      {/* Custom Keyframes in Style Tag */}
-      <style jsx>{`
-        @keyframes gavel-strike {
-          0%, 20% {
-            transform: translateX(-50%) translateY(-20px) rotate(-15deg);
-          }
-          40% {
-            transform: translateX(-50%) translateY(0px) rotate(0deg);
-          }
-          45% {
-            transform: translateX(-50%) translateY(2px) rotate(2deg);
-          }
-          50%, 100% {
-            transform: translateX(-50%) translateY(-20px) rotate(-15deg);
-          }
-        }
-
-        @keyframes impact-glow {
-          0%, 35% {
-            opacity: 0;
-            transform: translateX(-50%) scale(0.5);
-          }
-          40% {
-            opacity: 0.8;
-            transform: translateX(-50%) scale(1);
-          }
-          55% {
-            opacity: 0;
-            transform: translateX(-50%) scale(1.5);
-          }
-          100% {
-            opacity: 0;
-            transform: translateX(-50%) scale(0.5);
-          }
-        }
-      `}</style>
     </div>
   );
 };
