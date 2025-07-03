@@ -161,51 +161,51 @@ const Shop = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F0616] to-[#1a0a2e]">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       <main className="pt-24 pb-12">
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-12 animate-fade-in">
-            <h1 className="text-5xl font-serif font-bold text-[#D4AF37] mb-4">
+            <h1 className="text-5xl font-serif font-bold text-primary mb-4">
               🛍️ Shop Now
             </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Complete legal book collections and specialized packages for every legal professional
             </p>
           </div>
 
           {/* Featured Banner */}
-          <div className="bg-gradient-to-r from-[#D4AF37]/20 to-[#f4d03f]/20 rounded-2xl p-8 mb-8 border border-[#D4AF37]/30 animate-fade-in">
+          <div className="bg-gradient-to-r from-accent/20 to-accent/10 rounded-2xl p-8 mb-8 border border-accent/30 animate-fade-in">
             <div className="text-center">
-              <h2 className="text-3xl font-serif font-bold text-[#D4AF37] mb-2">
+              <h2 className="text-3xl font-serif font-bold text-accent mb-2">
                 🎉 Special Offer - Up to 40% Off!
               </h2>
-              <p className="text-lg text-white">
+              <p className="text-lg text-foreground">
                 Limited time offer on all book bundles and collections
               </p>
             </div>
           </div>
 
           {/* Search and Filters */}
-          <div className="bg-[#1a0a2e] rounded-xl p-6 mb-8 border border-[#D4AF37]/20">
+          <div className="bg-card rounded-xl p-6 mb-8 border border-border shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div className="md:col-span-2">
-                <label className="block text-[#D4AF37] mb-2 font-semibold">Search Products</label>
+                <label className="block text-accent mb-2 font-semibold">Search Products</label>
                 <Input
                   placeholder="Search books and collections..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="bg-[#0F0616] border-[#D4AF37]/30 text-white"
+                  className="bg-background border-border text-foreground"
                 />
               </div>
               <div>
-                <label className="block text-[#D4AF37] mb-2 font-semibold">Category</label>
+                <label className="block text-accent mb-2 font-semibold">Category</label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full p-2 rounded-md bg-[#0F0616] border border-[#D4AF37]/30 text-white"
+                  className="w-full p-2 rounded-md bg-background border border-border text-foreground"
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>{category}</option>
@@ -213,11 +213,11 @@ const Shop = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-[#D4AF37] mb-2 font-semibold">Sort By</label>
+                <label className="block text-accent mb-2 font-semibold">Sort By</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full p-2 rounded-md bg-[#0F0616] border border-[#D4AF37]/30 text-white"
+                  className="w-full p-2 rounded-md bg-background border border-border text-foreground"
                 >
                   {sortOptions.map(option => (
                     <option key={option.value} value={option.value}>{option.label}</option>
@@ -225,12 +225,12 @@ const Shop = () => {
                 </select>
               </div>
               <div className="flex flex-col justify-end">
-                <label className="flex items-center space-x-2 text-[#D4AF37] cursor-pointer">
+                <label className="flex items-center space-x-2 text-accent cursor-pointer">
                   <input
                     type="checkbox"
                     checked={showOnlyInStock}
                     onChange={(e) => setShowOnlyInStock(e.target.checked)}
-                    className="w-4 h-4 text-[#D4AF37] bg-[#0F0616] border-[#D4AF37]/30 rounded focus:ring-[#D4AF37]"
+                    className="w-4 h-4 text-accent bg-background border-border rounded focus:ring-accent"
                   />
                   <span>In Stock Only</span>
                 </label>
@@ -243,7 +243,7 @@ const Shop = () => {
             {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
-                className="group bg-[#1a0a2e] rounded-xl overflow-hidden border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#D4AF37]/20 animate-fade-in relative"
+                className="group bg-card rounded-xl overflow-hidden border border-border hover:border-accent/60 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-accent/20 animate-fade-in relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Badges */}
@@ -267,7 +267,7 @@ const Shop = () => {
 
                 {/* Discount Badge */}
                 {product.originalPrice > product.price && (
-                  <div className="absolute top-2 right-2 z-10 bg-[#D4AF37] text-[#0F0616] px-3 py-1 rounded-full font-bold text-sm">
+                  <div className="absolute top-2 right-2 z-10 bg-accent text-accent-foreground px-3 py-1 rounded-full font-bold text-sm">
                     {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
                   </div>
                 )}
@@ -278,11 +278,11 @@ const Shop = () => {
                     alt={product.title}
                     className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F0616]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <Button
                       onClick={() => handleAddToCart(product)}
                       disabled={!product.inStock}
-                      className="bg-[#D4AF37] text-[#0F0616] hover:bg-[#f4d03f] font-semibold transform scale-0 group-hover:scale-100 transition-transform duration-300"
+                      className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold transform scale-0 group-hover:scale-100 transition-transform duration-300"
                     >
                       {product.inStock ? '🛒 Add to Cart' : 'Out of Stock'}
                     </Button>
@@ -299,7 +299,7 @@ const Shop = () => {
                 
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[#D4AF37] text-xs font-semibold bg-[#D4AF37]/10 px-2 py-1 rounded">
+                    <span className="text-accent text-xs font-semibold bg-accent/10 px-2 py-1 rounded">
                       {product.category}
                     </span>
                     <div className="flex items-center text-yellow-400">
@@ -307,19 +307,19 @@ const Shop = () => {
                     </div>
                   </div>
                   
-                  <h3 className="text-sm font-serif font-bold text-white mb-2 group-hover:text-[#D4AF37] transition-colors line-clamp-2">
+                  <h3 className="text-sm font-serif font-bold text-foreground mb-2 group-hover:text-accent transition-colors line-clamp-2">
                     {product.title}
                   </h3>
                   
-                  <p className="text-gray-300 mb-3 text-xs line-clamp-2">
+                  <p className="text-muted-foreground mb-3 text-xs line-clamp-2">
                     {product.description}
                   </p>
                   
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
-                      <span className="text-lg font-bold text-[#D4AF37]">₹{product.price}</span>
+                      <span className="text-lg font-bold text-accent">₹{product.price}</span>
                       {product.originalPrice > product.price && (
-                        <span className="text-gray-500 line-through text-xs">₹{product.originalPrice}</span>
+                        <span className="text-muted-foreground line-through text-xs">₹{product.originalPrice}</span>
                       )}
                     </div>
                   </div>
@@ -327,7 +327,7 @@ const Shop = () => {
                   <Button
                     onClick={() => handleAddToCart(product)}
                     disabled={!product.inStock}
-                    className="w-full bg-gradient-to-r from-[#D4AF37] to-[#f4d03f] text-[#0F0616] hover:scale-105 transition-all duration-300 font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {product.inStock ? '🛒 Add to Cart' : 'Out of Stock'}
                   </Button>
@@ -339,7 +339,7 @@ const Shop = () => {
           {filteredProducts.length === 0 && (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">🛍️</div>
-              <p className="text-gray-400 text-xl">No products found matching your criteria</p>
+              <p className="text-muted-foreground text-xl">No products found matching your criteria</p>
             </div>
           )}
         </div>

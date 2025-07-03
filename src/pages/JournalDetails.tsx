@@ -1,85 +1,67 @@
-
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
-import { Minus, Plus, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Minus, Plus } from 'lucide-react';
 
-const journalData = {
+const journalsData = {
   1: {
-    id: "1",
+    id: 1,
     title: "Orissa High Court Digest",
     image: "/lovable-uploads/bd9562f0-5286-4441-82a0-f16eac646a5f.png",
     description: "Comprehensive digest of Orissa High Court judgments",
     year: "2024",
-    price: 1299,
-    category: "Legal Digest",
-    story: "The Orissa High Court Digest has been the cornerstone of legal research in Eastern India for over five decades. First published in 1970, this comprehensive digest has guided countless legal professionals through the intricate landscape of Orissa's jurisprudence. Its meticulous compilation of landmark judgments has made it an indispensable resource for advocates, judges, and legal scholars alike.",
-    legacy: "This digest represents more than just a collection of court decisions—it embodies the evolution of legal thought in one of India's most historically significant states. Each volume captures the essence of judicial wisdom that has shaped regional legal practice.",
-    importance: "Essential for understanding the nuances of Orissa state law, this digest provides crucial insights into local legal precedents and their application in contemporary practice.",
+    price: 799,
+    story: "The Orissa High Court Digest is an essential resource for legal professionals and researchers, providing comprehensive coverage of judgments and case laws from the Orissa High Court. Stay updated with the latest legal precedents and interpretations.",
     credits: {
-      editor: "Justice Rajesh Kumar Sharma (Retd.)",
-      authors: ["Advocate Priya Patel", "Dr. Anand Mishra", "Advocate Suresh Nayak"],
-      contributors: ["Legal Research Team - Orissa Bar Association", "High Court Registry"],
-      publisher: "Eastern Law Publications"
+      chiefEditor: "Dr. Legal Expert",
+      associateEditors: ["Adv. Case Law", "Adv. Judgment Analysis"],
+      publisher: "Law Publications India"
     }
   },
   2: {
-    id: "2",
+    id: 2,
     title: "Criminal Major Acts",
     image: "/lovable-uploads/bd9562f0-5286-4441-82a0-f16eac646a5f.png",
     description: "Complete compilation of criminal law statutes",
     year: "2024",
-    price: 899,
-    category: "Criminal Law",
-    story: "The Criminal Major Acts compilation has been the definitive guide to India's criminal law framework since 1985. This authoritative collection brings together all major criminal statutes, amendments, and procedural codes in one comprehensive volume. Trusted by criminal lawyers, public prosecutors, and law enforcement officers across the nation.",
-    legacy: "For nearly four decades, this publication has been the go-to reference for criminal law practitioners, earning recognition from the Supreme Court of India and various High Courts for its accuracy and completeness.",
-    importance: "In an era of rapidly evolving criminal law, this compilation ensures that legal professionals stay current with the latest amendments and judicial interpretations.",
+    price: 699,
+    story: "Criminal Major Acts is a complete compilation of criminal law statutes, including the Indian Penal Code, Criminal Procedure Code, and Evidence Act. This resource is invaluable for law students, practitioners, and anyone seeking a thorough understanding of criminal law.",
     credits: {
-      editor: "Justice M.R. Calla (Retd.)",
-      authors: ["Advocate Vikram Singh", "Dr. Meera Joshi", "Advocate Rajesh Gupta"],
-      contributors: ["National Criminal Law Society", "Bar Council of India"],
-      publisher: "All India Legal Publications"
+      chiefEditor: "Adv. Criminal Law",
+      associateEditors: ["Dr. Statute Analysis", "Adv. Legal Amendments"],
+      publisher: "Statute House India"
     }
   },
   3: {
-    id: "3",
+    id: 3,
     title: "Civil Procedure Code Commentary",
     image: "/lovable-uploads/20716325-0e93-4a46-bfec-60bd22b17411.png",
     description: "In-depth analysis of Civil Procedure Code",
     year: "2023",
-    price: 1599,
-    category: "Civil Law",
-    story: "The Civil Procedure Code Commentary stands as the most comprehensive analysis of India's civil procedure law. First published in 1978, this scholarly work has guided generations of civil lawyers through the complexities of procedural law. Its detailed section-by-section commentary includes the latest Supreme Court and High Court judgments.",
-    legacy: "This commentary has been cited in over 10,000 court cases across India and is considered the authoritative interpretation of civil procedure. It has shaped the understanding of procedural law for over 45 years.",
-    importance: "Essential for civil litigation practitioners, this commentary provides deep insights into procedural nuances that can make or break a case in court.",
+    price: 899,
+    story: "The Civil Procedure Code Commentary offers an in-depth analysis of the Civil Procedure Code, providing insights into legal procedures, case management, and dispute resolution. This commentary is an indispensable guide for civil law practitioners and students.",
     credits: {
-      editor: "Justice Arun Kumar Mishra (Retd.)",
-      authors: ["Senior Advocate Indira Jaising", "Professor Dr. Upendra Baxi", "Advocate Harish Salve"],
-      contributors: ["Civil Law Research Foundation", "Supreme Court Advocates Association"],
-      publisher: "Universal Law Publishing"
+      chiefEditor: "Dr. Civil Law Expert",
+      associateEditors: ["Adv. Procedure Analysis", "Adv. Case Management"],
+      publisher: "Civil Law Publications"
     }
   },
   4: {
-    id: "4",
+    id: 4,
     title: "Bare Acts Collection",
     image: "/lovable-uploads/cef2bd9f-6509-4ace-be37-df626c82073e.png",
     description: "Essential legal acts and amendments",
     year: "2024",
-    price: 799,
-    category: "Legal Reference",
-    story: "The Bare Acts Collection represents the most comprehensive compilation of India's legislative framework. Updated annually since 1950, this collection has been the trusted companion of legal professionals for over seven decades. It contains all major acts, rules, and amendments in their original form.",
-    legacy: "This collection has been the foundation of legal education in India, used by every law school and legal professional. Its accuracy and completeness have made it the standard reference for statutory law.",
-    importance: "No legal library is complete without this essential collection. It provides the raw material from which all legal arguments are constructed.",
+    price: 599,
+    story: "The Bare Acts Collection is an essential compilation of legal acts and amendments, providing quick access to the most important legal statutes. This collection is a must-have for legal professionals, students, and anyone needing to reference legal acts.",
     credits: {
-      editor: "Justice R.V. Raveendran (Retd.)",
-      authors: ["Legislative Drafting Committee", "Ministry of Law & Justice"],
-      contributors: ["Parliament of India", "State Legislative Assemblies"],
-      publisher: "Government Publications Division"
+      chiefEditor: "Adv. Legal Compilations",
+      associateEditors: ["Dr. Statute Amendments", "Adv. Act References"],
+      publisher: "Law Literature House"
     }
   }
 };
@@ -88,20 +70,21 @@ const JournalDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
 
-  const journal = journalData[id as keyof typeof journalData];
+  // Fix TypeScript error by properly typing the id parameter
+  const journalId = id ? parseInt(id) : null;
+  const journal = journalId && journalId >= 1 && journalId <= 4 ? journalsData[journalId as 1 | 2 | 3 | 4] : null;
 
   if (!journal) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="container mx-auto px-4 pt-24 text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Journal Not Found</h1>
-          <Button onClick={() => navigate('/journals')}>Back to Journals</Button>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Journal Not Found</h1>
+          <Button onClick={() => navigate('/journals')}>
+            Back to Journals
+          </Button>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -109,17 +92,15 @@ const JournalDetails = () => {
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart({
-        id: journal.id,
+        id: `journal-${journal.id}`,
         title: journal.title,
         price: journal.price,
         image: journal.image,
-        category: journal.category,
+        category: 'Journal'
       });
     }
-    toast({
-      title: "Added to Cart",
-      description: `${quantity} x ${journal.title} added to your cart.`,
-    });
+    // Reset quantity after adding to cart
+    setQuantity(1);
   };
 
   return (
@@ -127,140 +108,150 @@ const JournalDetails = () => {
       <Navigation />
       
       <main className="pt-24 pb-12">
-        <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
-          <div className="mb-8">
-            <nav className="text-sm text-muted-foreground">
-              <button onClick={() => navigate('/')} className="hover:text-primary">Home</button>
-              <span className="mx-2">/</span>
-              <button onClick={() => navigate('/journals')} className="hover:text-primary">Journals</button>
-              <span className="mx-2">/</span>
-              <span className="text-foreground">{journal.title}</span>
-            </nav>
+        <div className="container mx-auto px-4 max-w-6xl">
+          {/* Back Button */}
+          <div className="flex items-center mb-8 animate-fade-in">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/journals')}
+              className="mr-4 text-foreground hover:text-accent"
+            >
+              <ArrowLeft size={20} className="mr-2" />
+              Back to Journals
+            </Button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-            {/* Image Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Journal Image */}
             <div className="animate-fade-in">
-              <img
-                src={journal.image}
-                alt={journal.title}
-                className="w-full max-w-md mx-auto rounded-lg shadow-lg"
-              />
+              <div className="relative group">
+                <img 
+                  src={journal.image} 
+                  alt={journal.title}
+                  className="w-full max-w-md mx-auto rounded-lg shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
             </div>
 
-            {/* Details Section */}
-            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <h1 className="text-4xl font-serif font-bold text-foreground mb-4">
-                {journal.title}
-              </h1>
-              <p className="text-lg text-muted-foreground mb-4">
-                {journal.description}
-              </p>
-              <div className="flex items-center gap-4 mb-6">
-                <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                  {journal.year}
-                </span>
-                <span className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm">
-                  {journal.category}
-                </span>
-              </div>
-              
-              <div className="text-3xl font-bold text-primary mb-6">
-                ₹{journal.price}
-              </div>
-
-              {/* Quantity Selector */}
-              <div className="flex items-center gap-4 mb-6">
-                <span className="text-sm font-medium">Quantity:</span>
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  >
-                    <Minus size={16} />
-                  </Button>
-                  <span className="w-12 text-center font-semibold">{quantity}</span>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setQuantity(quantity + 1)}
-                  >
-                    <Plus size={16} />
-                  </Button>
+            {/* Journal Details */}
+            <div className="space-y-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              {/* Title and Description */}
+              <div>
+                <h1 className="text-4xl font-serif font-bold text-primary mb-4">
+                  {journal.title}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-6">
+                  {journal.description}
+                </p>
+                <div className="flex items-center space-x-4 mb-6">
+                  <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-semibold">
+                    Edition {journal.year}
+                  </span>
+                  <span className="text-accent font-bold text-2xl">
+                    ₹{journal.price}
+                  </span>
                 </div>
               </div>
 
-              <Button
-                onClick={handleAddToCart}
-                size="lg"
-                className="w-full mb-4"
-              >
-                <ShoppingCart className="mr-2" size={20} />
-                Add to Cart - ₹{(journal.price * quantity).toLocaleString()}
-              </Button>
+              {/* Story Section */}
+              <Card className="border-accent/20">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-serif text-accent flex items-center">
+                    📖 Journal Story
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-foreground leading-relaxed">
+                    {journal.story}
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Credits Section */}
+              <Card className="border-accent/20">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-serif text-accent flex items-center">
+                    👥 Editorial Team
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="font-semibold text-primary">Chief Editor:</h4>
+                      <p className="text-foreground">{journal.credits.chiefEditor}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-primary">Associate Editors:</h4>
+                      <p className="text-foreground">{journal.credits.associateEditors.join(', ')}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-primary">Publisher:</h4>
+                      <p className="text-foreground">{journal.credits.publisher}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Shopping Section */}
+              <Card className="border-accent/20 bg-card">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-serif text-accent flex items-center">
+                    🛒 Order Now
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {/* Quantity Selector */}
+                    <div className="flex items-center space-x-4">
+                      <span className="text-foreground font-semibold">Quantity:</span>
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                          className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <Minus size={16} />
+                        </Button>
+                        <span className="w-12 text-center font-bold text-lg text-foreground">
+                          {quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setQuantity(quantity + 1)}
+                          className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <Plus size={16} />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Total Price */}
+                    <div className="flex items-center justify-between p-4 bg-accent/10 rounded-lg">
+                      <span className="text-lg font-semibold text-foreground">Total:</span>
+                      <span className="text-2xl font-bold text-accent">
+                        ₹{(journal.price * quantity).toFixed(2)}
+                      </span>
+                    </div>
+
+                    {/* Add to Cart Button */}
+                    <Button
+                      onClick={handleAddToCart}
+                      className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                      🛒 Add to Cart ({quantity} {quantity === 1 ? 'copy' : 'copies'})
+                    </Button>
+
+                    <p className="text-sm text-muted-foreground text-center">
+                      📦 Free shipping on orders above ₹500
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-
-          {/* Story Section */}
-          <Card className="mb-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-foreground mb-6">
-                📖 The Story Behind This Journal
-              </h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                {journal.story}
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">🏛️ Legacy</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {journal.legacy}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">⚖️ Importance</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {journal.importance}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Credits Section */}
-          <Card className="animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-foreground mb-6">
-                👥 Editorial Team & Credits
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Chief Editor</h3>
-                  <p className="text-muted-foreground mb-4">{journal.credits.editor}</p>
-                  
-                  <h3 className="font-semibold text-foreground mb-2">Authors</h3>
-                  <ul className="text-muted-foreground space-y-1 mb-4">
-                    {journal.credits.authors.map((author, index) => (
-                      <li key={index}>• {author}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Contributors</h3>
-                  <ul className="text-muted-foreground space-y-1 mb-4">
-                    {journal.credits.contributors.map((contributor, index) => (
-                      <li key={index}>• {contributor}</li>
-                    ))}
-                  </ul>
-                  
-                  <h3 className="font-semibold text-foreground mb-2">Publisher</h3>
-                  <p className="text-muted-foreground">{journal.credits.publisher}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </main>
 
