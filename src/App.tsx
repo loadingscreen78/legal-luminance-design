@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,7 @@ import { AnimatedLoader } from "./components/AnimatedLoader";
 import { useState, useEffect } from "react";
 import Index from "./pages/Index";
 import Journals from "./pages/Journals";
+import JournalDetails from "./pages/JournalDetails";
 import Books from "./pages/Books";
 import Founder from "./pages/Founder";
 import Shop from "./pages/Shop";
@@ -46,6 +48,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/journals" element={<Journals />} />
+                <Route path="/journal/:id" element={<JournalDetails />} />
                 <Route path="/books" element={<Books />} />
                 <Route path="/founder" element={<Founder />} />
                 <Route path="/shop" element={<Shop />} />

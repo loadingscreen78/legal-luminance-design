@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -60,6 +61,7 @@ const Journals = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [selectedYear, setSelectedYear] = useState('All');
+  const navigate = useNavigate();
 
   const types = ['All', 'Digest', 'Handbook', 'Bare Act', 'Manual'];
   const years = ['All', '2024', '2023', '2022'];
@@ -71,8 +73,15 @@ const Journals = () => {
     return matchesSearch && matchesType && matchesYear;
   });
 
+  const handleJournalClick = (journalId: number) => {
+    // Only navigate if the journal ID is in our detailed journals (1-4)
+    if (journalId <= 4) {
+      navigate(`/journal/${journalId}`);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F0616] to-[#1a0a2e]">
+    <div className="min-h-screen bg-gradient-to-br from-[#0F0616] to-[#1a0a2e] dark:from-gray-900 dark:to-gray-800">
       <Navigation />
       
       <main className="pt-24 pb-12">
@@ -88,7 +97,7 @@ const Journals = () => {
           </div>
 
           {/* Filters */}
-          <div className="bg-[#1a0a2e] rounded-xl p-6 mb-8 border border-[#D4AF37]/20">
+          <div className="bg-[#1a0a2e] dark:bg-gray-800 rounded-xl p-6 mb-8 border border-[#D4AF37]/20">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-[#D4AF37] mb-2 font-semibold">Search</label>
@@ -96,7 +105,7 @@ const Journals = () => {
                   placeholder="Search journals..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="bg-[#0F0616] border-[#D4AF37]/30 text-white"
+                  className="bg-[#0F0616] dark:bg-gray-700 border-[#D4AF37]/30 text-white"
                 />
               </div>
               <div>
@@ -104,7 +113,7 @@ const Journals = () => {
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full p-2 rounded-md bg-[#0F0616] border border-[#D4AF37]/30 text-white"
+                  className="w-full p-2 rounded-md bg-[#0F0616] dark:bg-gray-700 border border-[#D4AF37]/30 text-white"
                 >
                   {types.map(type => (
                     <option key={type} value={type}>{type}</option>
@@ -116,7 +125,7 @@ const Journals = () => {
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(e.target.value)}
-                  className="w-full p-2 rounded-md bg-[#0F0616] border border-[#D4AF37]/30 text-white"
+                  className="w-full p-2 rounded-md bg-[#0F0616] dark:bg-gray-700 border border-[#D4AF37]/30 text-white"
                 >
                   {years.map(year => (
                     <option key={year} value={year}>{year}</option>
@@ -144,8 +153,9 @@ const Journals = () => {
             {filteredJournals.map((journal, index) => (
               <div
                 key={journal.id}
-                className="group bg-[#1a0a2e] rounded-xl overflow-hidden border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#D4AF37]/20 animate-fade-in"
+                className="group bg-[#1a0a2e] dark:bg-gray-800 rounded-xl overflow-hidden border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#D4AF37]/20 animate-fade-in cursor-pointer"
                 style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => handleJournalClick(journal.id)}
               >
                 <div className="relative overflow-hidden">
                   <img
@@ -170,7 +180,7 @@ const Journals = () => {
                     {journal.description}
                   </p>
                   <Button className="w-full bg-gradient-to-r from-[#D4AF37] to-[#f4d03f] text-[#0F0616] hover:scale-105 transition-all duration-300 font-semibold">
-                    View Details
+                    {journal.id <= 4 ? 'View Details' : 'Coming Soon'}
                   </Button>
                 </div>
               </div>

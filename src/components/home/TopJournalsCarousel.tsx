@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -36,15 +37,20 @@ const journals = [
 
 export const TopJournalsCarousel = () => {
   const [hoveredJournal, setHoveredJournal] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  const handleJournalClick = (journalId: number) => {
+    navigate(`/journal/${journalId}`);
+  };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-serif font-bold text-[#222222] mb-4">
+          <h2 className="text-4xl font-serif font-bold text-[#222222] dark:text-white mb-4">
             Top Legal Journals
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Discover our bestselling legal journals trusted by professionals nationwide
           </p>
         </div>
@@ -53,9 +59,10 @@ export const TopJournalsCarousel = () => {
           {journals.map((journal) => (
             <Card 
               key={journal.id}
-              className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-none shadow-lg"
+              className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-none shadow-lg bg-white dark:bg-gray-800"
               onMouseEnter={() => setHoveredJournal(journal.id)}
               onMouseLeave={() => setHoveredJournal(null)}
+              onClick={() => handleJournalClick(journal.id)}
             >
               <CardContent className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
@@ -76,13 +83,13 @@ export const TopJournalsCarousel = () => {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="font-serif font-bold text-lg text-[#222222] mb-2">
+                  <h3 className="font-serif font-bold text-lg text-[#222222] dark:text-white mb-2">
                     {journal.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
                     {journal.description}
                   </p>
-                  <p className="text-xs text-[#3454D1] font-semibold">
+                  <p className="text-xs text-[#3454D1] dark:text-blue-400 font-semibold">
                     Edition {journal.year}
                   </p>
                 </div>
