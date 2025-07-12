@@ -19,7 +19,7 @@ const OrissaCriminalReports = () => {
   const journalData = {
     title: "Orissa Criminal Reports",
     subtitle: "A Monthly Criminal Law Journal (Published on 1st of every month)",
-    image: "/lovable-uploads/bd9562f0-5286-4441-82a0-f16eac646a5f.png",
+    image: "/lovable-uploads/441f5d29-2c1e-4b01-8bf0-1ec3f24cc58d.png",
     yearlyPrice: 3200,
     partPrice: 450,
     citation: "[2025] 99 OCR",
