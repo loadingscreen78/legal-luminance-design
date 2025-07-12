@@ -294,20 +294,21 @@ const OrissaCriminalReports = () => {
                       <MapPin className="text-accent" size={20} />
                       <div>
                         <p className="font-semibold text-primary">LEGAL ASSOCIATES</p>
-                        <p className="text-foreground">High Court Front, Cuttack - 753 002</p>
+                        <p className="text-muted-foreground text-sm">(Law Book Sellers, Publishers & Suppliers)</p>
+                        <p className="text-foreground">High Court Road, Cuttack-753002 (Odisha)</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Phone className="text-accent" size={20} />
                       <div>
-                        <p className="text-foreground">0671-2910130 | 9437019131</p>
+                        <p className="text-foreground">0671-2910130(O) | 94370-19131(M)</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="text-accent" size={20} />
                       <div>
-                        <p className="text-foreground">legalassociates.ocr@gmail.com</p>
                         <p className="text-foreground">akshaya.ocr@gmail.com</p>
+                        <p className="text-foreground">legalassociates.ocr@gmail.com</p>
                       </div>
                     </div>
                   </div>
