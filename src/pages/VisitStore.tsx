@@ -58,9 +58,10 @@ const VisitStore = () => {
                     <div>
                       <h3 className="font-semibold text-white text-lg mb-1">Address</h3>
                       <p className="text-gray-300">
-                        Legal Associates<br/>
-                        123, Law Book Street<br/>
-                        Cuttack, Odisha 753001<br/>
+                        LEGAL ASSOCIATES<br/>
+                        (Law Book Sellers, Publishers & Suppliers)<br/>
+                        High Court Road<br/>
+                        Cuttack - 753002 (Odisha)<br/>
                         India
                       </p>
                     </div>
@@ -70,8 +71,8 @@ const VisitStore = () => {
                     <div className="text-2xl">📞</div>
                     <div>
                       <h3 className="font-semibold text-white text-lg mb-1">Phone</h3>
-                      <p className="text-gray-300">+91 98765 43210</p>
-                      <p className="text-gray-300">+91 87654 32109</p>
+                      <p className="text-gray-300">0671-2910130 (Office)</p>
+                      <p className="text-gray-300">94370-19131 (Mobile)</p>
                     </div>
                   </div>
 
@@ -79,8 +80,8 @@ const VisitStore = () => {
                     <div className="text-2xl">📧</div>
                     <div>
                       <h3 className="font-semibold text-white text-lg mb-1">Email</h3>
-                      <p className="text-gray-300">info@legalassociates.com</p>
-                      <p className="text-gray-300">orders@legalassociates.com</p>
+                      <p className="text-gray-300">akshaya.ocr@gmail.com</p>
+                      <p className="text-gray-300">legalassociates.ocr@gmail.com</p>
                     </div>
                   </div>
 
@@ -100,7 +101,7 @@ const VisitStore = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
                   <Button
-                    onClick={() => window.open('tel:+919876543210', '_self')}
+                    onClick={() => window.open('tel:+916712910130', '_self')}
                     className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3"
                   >
                     📞 Call Now
