@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import Index from "./pages/Index";
 import Journals from "./pages/Journals";
 import JournalDetails from "./pages/JournalDetails";
+import OrissaCriminalReports from "./pages/OrissaCriminalReports";
 import Books from "./pages/Books";
 import Founder from "./pages/Founder";
 import Shop from "./pages/Shop";
@@ -44,6 +45,7 @@ const AppContent = () => {
         <Route path="/" element={<Index />} />
         <Route path="/journals" element={<Journals />} />
         <Route path="/journal/:id" element={<JournalDetails />} />
+        <Route path="/orissa-criminal-reports" element={<OrissaCriminalReports />} />
         <Route path="/books" element={<Books />} />
         <Route path="/founder" element={<Founder />} />
         <Route path="/shop" element={<Shop />} />
