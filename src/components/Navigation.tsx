@@ -1,18 +1,23 @@
 
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatedLogo } from './AnimatedLogo';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { CartDrawer } from './CartDrawer';
 import { useCart } from '@/contexts/CartContext';
-import { Menu, X } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Menu, X, LogOut, User, LogIn } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { getTotalItems } = useCart();
+  const { user, signOut, loading } = useAuth();
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +37,23 @@ export const Navigation = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out successfully",
+        description: "You have been logged out of your account.",
+      });
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: "Error signing out",
+        description: "There was a problem signing you out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <>
@@ -62,6 +84,42 @@ export const Navigation = () => {
                   </Button>
                 </Link>
               ))}
+              
+              {/* Auth Section */}
+              {!loading && (
+                <div className="flex items-center space-x-3">
+                  {user ? (
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-2 px-3 py-1 bg-muted rounded-lg">
+                        <User className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-sm font-medium text-foreground">
+                          {user.email?.split('@')[0] || 'User'}
+                        </span>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleSignOut}
+                        className="flex items-center space-x-2 hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link to="/login">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+                      >
+                        <LogIn className="w-4 h-4" />
+                        <span>Login</span>
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              )}
               
               <ThemeToggle />
               <CartDrawer />
@@ -100,6 +158,43 @@ export const Navigation = () => {
                     </Button>
                   </Link>
                 ))}
+                
+                {/* Mobile Auth Section */}
+                {!loading && (
+                  <div className="pt-3 border-t border-border mt-3">
+                    {user ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2 px-3 py-2 bg-muted rounded-lg">
+                          <User className="w-4 h-4 text-muted-foreground" />
+                          <span className="text-sm font-medium text-foreground">
+                            {user.email?.split('@')[0] || 'User'}
+                          </span>
+                        </div>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                          onClick={() => {
+                            handleSignOut();
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start hover:bg-accent hover:text-accent-foreground transition-colors"
+                        >
+                          <LogIn className="w-4 h-4 mr-2" />
+                          Login
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}
