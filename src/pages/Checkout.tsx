@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -253,7 +253,6 @@ const Checkout = () => {
 
                   <Button
                     onClick={handleContinueToPayment}
-                    disabled={!isFormValid}
                     disabled={!isFormValid || loading}
                     className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                   >
