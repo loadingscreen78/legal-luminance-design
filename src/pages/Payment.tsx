@@ -6,13 +6,16 @@ import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
+import { useOrders } from '@/hooks/useOrders';
 import { ArrowLeft } from 'lucide-react';
 
 const Payment = () => {
-  const { getTotalPrice, clearCart } = useCart();
+  const { getTotalPrice } = useCart();
+  const { createTransaction } = useOrders();
   const navigate = useNavigate();
   const [selectedPayment, setSelectedPayment] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [orderAmount, setOrderAmount] = useState(0);
 
   const paymentMethods = [
     {
@@ -38,29 +41,63 @@ const Payment = () => {
   const handlePayNow = async () => {
     if (!selectedPayment) return;
     
+    const currentOrderId = localStorage.getItem('currentOrderId');
+    if (!currentOrderId) {
+      navigate('/checkout');
+      return;
+    }
+    
     setIsProcessing(true);
     
-    // Simulate payment processing
-    setTimeout(() => {
+    try {
+      // Simulate payment processing delay
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Create transaction record
+      const transactionId = `TXN${Date.now()}`;
+      await createTransaction({
+        order_id: currentOrderId,
+        transaction_id: transactionId,
+        amount: orderAmount,
+        status: 'success',
+        payment_method: selectedPayment,
+        gateway_response: {
+          transaction_id: transactionId,
+          status: 'success',
+          timestamp: new Date().toISOString()
+        }
+      });
+      
       const orderData = {
-        orderId: `LA${Date.now()}`,
-        amount: getTotalPrice(),
+        orderId: transactionId,
+        amount: orderAmount,
         paymentMethod: selectedPayment,
         timestamp: new Date().toISOString()
       };
-      
+
       localStorage.setItem('orderData', JSON.stringify(orderData));
-      clearCart();
+      localStorage.removeItem('currentOrderId');
+      
       navigate('/order-success');
-    }, 3000);
+    } catch (error) {
+      console.error('Payment failed:', error);
+      alert('Payment failed. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   useEffect(() => {
-    const checkoutData = localStorage.getItem('checkoutData');
-    if (!checkoutData) {
+    const currentOrderId = localStorage.getItem('currentOrderId');
+    if (!currentOrderId) {
       navigate('/checkout');
+      return;
     }
-  }, [navigate]);
+    
+    // Get order amount from cart or stored data
+    const amount = getTotalPrice();
+    setOrderAmount(amount);
+  }, [navigate, getTotalPrice]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">

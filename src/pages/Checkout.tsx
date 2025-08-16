@@ -8,20 +8,41 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/hooks/useAuth';
+import { useOrders } from '@/hooks/useOrders';
 import { ArrowLeft } from 'lucide-react';
 
 const Checkout = () => {
-  const { items, getTotalPrice } = useCart();
+  const { items, getTotalPrice, clearCart } = useCart();
+  const { user, profile } = useAuth();
+  const { createOrder } = useOrders();
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
-    pincode: ''
+    fullName: profile?.full_name || '',
+    email: user?.email || '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
+    pincode: profile?.pincode || ''
   });
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    
+    if (profile) {
+      setFormData({
+        fullName: profile.full_name || '',
+        email: user.email || '',
+        phone: profile.phone || '',
+        address: profile.address || '',
+        pincode: profile.pincode || ''
+      });
+    }
+  }, [user, profile, navigate]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -29,10 +50,47 @@ const Checkout = () => {
     });
   };
 
-  const handleContinueToPayment = () => {
-    // Store form data for payment page
-    localStorage.setItem('checkoutData', JSON.stringify(formData));
-    navigate('/payment');
+  const handleContinueToPayment = async () => {
+    if (!isFormValid || !user) return;
+    
+    setLoading(true);
+    
+    try {
+      // Create order in database
+      const orderItems = items.map(item => ({
+        product_id: item.id,
+        product_title: item.title,
+        product_category: item.category,
+        quantity: item.quantity,
+        unit_price: item.price,
+        total_price: item.price * item.quantity
+      }));
+      
+      const orderId = await createOrder({
+        items: orderItems,
+        total_amount: getTotalPrice(),
+        shipping_address: {
+          full_name: formData.fullName,
+          phone: formData.phone,
+          address: formData.address,
+          pincode: formData.pincode
+        },
+        payment_method: 'pending'
+      });
+      
+      // Store order ID for payment page
+      localStorage.setItem('currentOrderId', orderId);
+      
+      // Clear cart after successful order creation
+      clearCart();
+      
+      navigate('/payment');
+    } catch (error) {
+      console.error('Error creating order:', error);
+      alert('Failed to create order. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const isFormValid = Object.values(formData).every(value => value.trim() !== '');
@@ -196,9 +254,17 @@ const Checkout = () => {
                   <Button
                     onClick={handleContinueToPayment}
                     disabled={!isFormValid}
+                    disabled={!isFormValid || loading}
                     className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                   >
-                    💳 Continue to Payment
+                    {loading ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="animate-spin w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full"></div>
+                        <span>Creating Order...</span>
+                      </div>
+                    ) : (
+                      '💳 Continue to Payment'
+                    )}
                   </Button>
                 </form>
               </CardContent>

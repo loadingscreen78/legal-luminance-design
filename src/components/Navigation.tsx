@@ -6,7 +6,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/components/ui/button';
 import { CartDrawer } from './CartDrawer';
 import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { Menu, X, LogOut, User, LogIn } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -16,7 +16,7 @@ export const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { getTotalItems } = useCart();
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut, loading, isAdmin } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -93,9 +93,19 @@ export const Navigation = () => {
                       <div className="flex items-center space-x-2 px-3 py-1 bg-muted rounded-lg">
                         <User className="w-4 h-4 text-muted-foreground" />
                         <span className="text-sm font-medium text-foreground">
-                          {user.email?.split('@')[0] || 'User'}
+                          {user.email?.split('@')[0] || 'User'} {isAdmin && '(Admin)'}
                         </span>
                       </div>
+                      <Link to={isAdmin ? '/admin-dashboard' : '/user-dashboard'}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center space-x-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+                        >
+                          <User className="w-4 h-4" />
+                          <span>Dashboard</span>
+                        </Button>
+                      </Link>
                       <Button
                         variant="outline"
                         size="sm"
@@ -167,9 +177,18 @@ export const Navigation = () => {
                         <div className="flex items-center space-x-2 px-3 py-2 bg-muted rounded-lg">
                           <User className="w-4 h-4 text-muted-foreground" />
                           <span className="text-sm font-medium text-foreground">
-                            {user.email?.split('@')[0] || 'User'}
+                            {user.email?.split('@')[0] || 'User'} {isAdmin && '(Admin)'}
                           </span>
                         </div>
+                        <Link to={isAdmin ? '/admin-dashboard' : '/user-dashboard'} onClick={() => setIsMobileMenuOpen(false)}>
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start hover:bg-accent hover:text-accent-foreground transition-colors"
+                          >
+                            <User className="w-4 h-4 mr-2" />
+                            Dashboard
+                          </Button>
+                        </Link>
                         <Button
                           variant="outline"
                           className="w-full justify-start hover:bg-destructive hover:text-destructive-foreground transition-colors"

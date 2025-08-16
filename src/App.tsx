@@ -23,6 +23,8 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import Login from "./pages/Login";
 import CheckoutInfo from "./pages/CheckoutInfo";
+import UserDashboard from "./pages/UserDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,8 @@ const AppContent = () => {
         <Route path="/checkout-info" element={<CheckoutInfo />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="*" element={<NotFound />} />
@@ -69,13 +73,11 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <ThemeProvider>
-          <AuthProvider>
-            <CartProvider>
-              <AppContent />
-              <Toaster />
-              <Sonner />
-            </CartProvider>
-          </AuthProvider>
+          <CartProvider>
+            <AppContent />
+            <Toaster />
+            <Sonner />
+          </CartProvider>
         </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>

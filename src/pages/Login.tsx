@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Scale, Home, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,19 +9,27 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { AnimatedLogo } from '@/components/AnimatedLogo';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Toggle } from '@/components/ui/toggle';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { signIn, signUp } = useAuth();
+  const { toast } = useToast();
   const [loginType, setLoginType] = useState<'user' | 'admin'>('user');
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [securityCode, setSecurityCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: {[key: string]: string} = {};
 
@@ -38,6 +46,16 @@ const Login = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
+    if (isSignUp) {
+      if (!fullName.trim()) {
+        newErrors.fullName = 'Full name is required';
+      }
+      
+      if (password !== confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
+      }
+    }
+
     if (loginType === 'admin' && !securityCode) {
       newErrors.securityCode = 'Security code is required for admin access';
     }
@@ -45,14 +63,48 @@ const Login = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Login logic will be added later
-      console.log('Login attempt:', { 
-        type: loginType, 
-        email, 
-        password, 
-        securityCode: loginType === 'admin' ? securityCode : undefined,
-        rememberMe 
-      });
+      setLoading(true);
+      
+      try {
+        if (isSignUp) {
+          const { error } = await signUp(email, password, {
+            full_name: fullName,
+          });
+          
+          if (error) throw error;
+          
+          toast({
+            title: "Account created successfully!",
+            description: "Please check your email to verify your account.",
+          });
+          
+          setIsSignUp(false);
+        } else {
+          const { error } = await signIn(email, password);
+          
+          if (error) throw error;
+          
+          toast({
+            title: "Welcome back!",
+            description: "You have been successfully logged in.",
+          });
+          
+          // Redirect based on user type
+          if (loginType === 'admin') {
+            navigate('/admin-dashboard');
+          } else {
+            navigate('/user-dashboard');
+          }
+        }
+      } catch (error: any) {
+        toast({
+          title: "Authentication failed",
+          description: error.message || "Please check your credentials and try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -139,18 +191,47 @@ const Login = () => {
             </div>
 
             <CardTitle className="text-2xl font-serif text-foreground mb-2 transition-all duration-300">
-              {loginType === 'admin' ? 'Admin Portal Access' : 'Welcome Back'}
+              {loginType === 'admin' 
+                ? 'Admin Portal Access' 
+                : isSignUp 
+                  ? 'Create Account' 
+                  : 'Welcome Back'
+              }
             </CardTitle>
             <CardDescription className="text-muted-foreground transition-all duration-300">
               {loginType === 'admin' 
                 ? 'Secure access to administrative dashboard' 
-                : 'Sign in to your legal education account'
+                : isSignUp
+                  ? 'Create your legal education account'
+                  : 'Sign in to your legal education account'
               }
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Full Name Field (Sign Up Only) */}
+              {isSignUp && loginType === 'user' && (
+                <div className="space-y-2 animate-fade-in">
+                  <Label htmlFor="fullName" className="text-sm font-medium text-foreground">
+                    Full Name
+                  </Label>
+                  <Input
+                    id="fullName"
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className={`transition-all duration-300 ${
+                      errors.fullName ? 'border-destructive ring-destructive' : 'focus:ring-accent'
+                    }`}
+                  />
+                  {errors.fullName && (
+                    <p className="text-xs text-destructive animate-fade-in">{errors.fullName}</p>
+                  )}
+                </div>
+              )}
+
               {/* Email/Username Field */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-foreground">
@@ -200,6 +281,28 @@ const Login = () => {
                 )}
               </div>
 
+              {/* Confirm Password Field (Sign Up Only) */}
+              {isSignUp && (
+                <div className="space-y-2 animate-fade-in">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium text-foreground">
+                    Confirm Password
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className={`transition-all duration-300 ${
+                      errors.confirmPassword ? 'border-destructive ring-destructive' : 'focus:ring-accent'
+                    }`}
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-xs text-destructive animate-fade-in">{errors.confirmPassword}</p>
+                  )}
+                </div>
+              )}
+
               {/* Security Code Field (Admin Only) */}
               {loginType === 'admin' && (
                 <div className="space-y-2 animate-fade-in">
@@ -223,42 +326,60 @@ const Login = () => {
               )}
 
               {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="remember"
-                    checked={rememberMe}
-                    onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                    className="border-border data-[state=checked]:bg-accent data-[state=checked]:border-accent"
-                  />
-                  <Label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer">
-                    Remember me
-                  </Label>
+              {!isSignUp && (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="remember"
+                      checked={rememberMe}
+                      onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                      className="border-border data-[state=checked]:bg-accent data-[state=checked]:border-accent"
+                    />
+                    <Label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer">
+                      Remember me
+                    </Label>
+                  </div>
+                  <Link 
+                    to="#" 
+                    className="text-sm text-accent hover:text-accent/80 transition-colors underline-offset-4 hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
                 </div>
-                <Link 
-                  to="#" 
-                  className="text-sm text-accent hover:text-accent/80 transition-colors underline-offset-4 hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
+              )}
 
-              {/* Login Button */}
+              {/* Submit Button */}
               <Button
                 type="submit"
+                disabled={loading}
                 className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground font-medium transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 hover:scale-[1.02]"
               >
-                {loginType === 'admin' ? 'Access Admin Portal' : 'Sign In'}
+                {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin w-4 h-4 border-2 border-accent-foreground border-t-transparent rounded-full"></div>
+                    <span>Please wait...</span>
+                  </div>
+                ) : (
+                  loginType === 'admin' 
+                    ? 'Access Admin Portal' 
+                    : isSignUp 
+                      ? 'Create Account' 
+                      : 'Sign In'
+                )}
               </Button>
 
               {/* Additional Links */}
               <div className="text-center space-y-2">
                 {loginType === 'user' && (
                   <p className="text-sm text-muted-foreground">
-                    Don't have an account?{' '}
-                    <Link to="#" className="text-accent hover:text-accent/80 transition-colors underline-offset-4 hover:underline">
-                      Sign up here
-                    </Link>
+                    {isSignUp ? "Already have an account?" : "Don't have an account?"}{' '}
+                    <button
+                      type="button"
+                      onClick={() => setIsSignUp(!isSignUp)}
+                      className="text-accent hover:text-accent/80 transition-colors underline-offset-4 hover:underline"
+                    >
+                      {isSignUp ? 'Sign in here' : 'Sign up here'}
+                    </button>
                   </p>
                 )}
                 <Link 
