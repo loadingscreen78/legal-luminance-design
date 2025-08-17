@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { AdminUser, Profile } from '@/types/database';
 
 export const useAuth = () => {
@@ -60,7 +60,7 @@ export const useAuth = () => {
       .eq('user_id', userId)
       .single();
     
-    setAdminUser(adminData);
+    setAdminUser(adminData as AdminUser);
   };
 
   const signIn = async (email: string, password: string) => {
@@ -72,9 +72,14 @@ export const useAuth = () => {
   };
 
   const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: redirectUrl
+      }
     });
 
     if (data.user && userData) {
