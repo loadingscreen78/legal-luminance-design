@@ -80,7 +80,7 @@ const Login = () => {
           
           setIsSignUp(false);
         } else {
-          const { error } = await signIn(email, password);
+          const { error } = await signIn(email, password, loginType === 'admin' ? securityCode : undefined);
           
           if (error) throw error;
           

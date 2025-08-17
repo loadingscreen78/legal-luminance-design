@@ -63,11 +63,26 @@ export const useAuth = () => {
     setAdminUser(adminData as AdminUser);
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string, securityCode?: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    
+    // If security code is provided, validate admin access
+    if (data.user && securityCode) {
+      const { data: adminData } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('user_id', data.user.id)
+        .single();
+      
+      if (!adminData || (adminData.permissions as any)?.security_code !== securityCode) {
+        await supabase.auth.signOut();
+        return { data: null, error: { message: 'Invalid security code for admin access' } };
+      }
+    }
+    
     return { data, error };
   };
 
