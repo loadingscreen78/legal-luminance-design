@@ -73,11 +73,13 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <ThemeProvider>
-          <CartProvider>
-            <AppContent />
-            <Toaster />
-            <Sonner />
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <AppContent />
+              <Toaster />
+              <Sonner />
+            </CartProvider>
+          </AuthProvider>
         </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
