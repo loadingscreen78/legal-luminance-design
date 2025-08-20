@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { AnimatedLogo } from '@/components/AnimatedLogo';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { LoginLoader } from '@/components/LoginLoader';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -27,6 +28,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [loading, setLoading] = useState(false);
+  const [loaderStage, setLoaderStage] = useState<'authenticating' | 'success' | 'redirecting'>('authenticating');
   const { theme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,6 +66,7 @@ const Login = () => {
 
     if (Object.keys(newErrors).length === 0) {
       setLoading(true);
+      setLoaderStage('authenticating');
       
       try {
         if (isSignUp) {
@@ -79,22 +82,24 @@ const Login = () => {
           });
           
           setIsSignUp(false);
+          setLoading(false);
         } else {
           const { error } = await signIn(email, password, loginType === 'admin' ? securityCode : undefined);
           
           if (error) throw error;
           
-          toast({
-            title: "Welcome back!",
-            description: "You have been successfully logged in.",
-          });
+          // Show success stage
+          setLoaderStage('success');
           
-          // Redirect based on user type
-          if (loginType === 'admin') {
-            navigate('/admin-dashboard');
-          } else {
-            navigate('/user-dashboard');
-          }
+          // Wait for success animation, then redirect
+          setTimeout(() => {
+            setLoaderStage('redirecting');
+            
+            setTimeout(() => {
+              // Redirect to homepage instead of dashboards for smoother UX
+              navigate('/');
+            }, 1500);
+          }, 2000);
         }
       } catch (error: any) {
         toast({
@@ -102,7 +107,6 @@ const Login = () => {
           description: error.message || "Please check your credentials and try again.",
           variant: "destructive",
         });
-      } finally {
         setLoading(false);
       }
     }
@@ -113,6 +117,17 @@ const Login = () => {
     setErrors({});
     setSecurityCode('');
   };
+
+  // Show loading screen during authentication
+  if (loading) {
+    return (
+      <LoginLoader 
+        stage={loaderStage} 
+        userType={loginType}
+        userName={email ? email.split('@')[0] : undefined}
+      />
+    );
+  }
 
   return (
     <div className={`min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-500 ${
@@ -382,12 +397,6 @@ const Login = () => {
                     </button>
                   </p>
                 )}
-                <Link 
-                  to="/" 
-                  className="inline-block text-sm text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
-                >
-                  Return to homepage
-                </Link>
               </div>
             </form>
           </CardContent>
