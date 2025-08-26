@@ -64,26 +64,75 @@ export const useAuth = () => {
   };
 
   const signIn = async (email: string, password: string, securityCode?: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    // If security code is provided, validate admin access
-    if (data.user && securityCode) {
-      const { data: adminData } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('user_id', data.user.id)
-        .single();
+    try {
+      setLoading(true);
       
-      if (!adminData || (adminData.permissions as any)?.security_code !== securityCode) {
-        await supabase.auth.signOut();
-        return { data: null, error: { message: 'Invalid security code for admin access' } };
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (data.user && securityCode) {
+        // Check if provided security code matches admin requirements
+        const { data: adminData, error: adminError } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('user_id', data.user.id)
+          .single();
+
+        if (adminError && adminError.code !== 'PGRST116') {
+          throw new Error('Failed to verify admin status');
+        }
+
+        // Enhanced security: Remove hardcoded admin code
+        // Admin accounts should now be created by existing super admins only
+        if (!adminData) {
+          await supabase.auth.signOut();
+          throw new Error('Admin access requires invitation from existing super admin');
+        }
       }
+
+      // Log successful authentication for security audit
+      if (data.user) {
+        try {
+          await supabase.from('security_audit_log').insert({
+            user_id: data.user.id,
+            action: 'login',
+            table_name: 'auth.users',
+            record_id: data.user.id,
+            ip_address: null, // Could be enhanced with actual IP
+            user_agent: navigator.userAgent,
+          });
+        } catch (auditError) {
+          // Don't fail login if audit logging fails
+          console.warn('Failed to log authentication event:', auditError);
+        }
+      }
+
+      return { data, error: null };
+    } catch (error: any) {
+      console.error('Sign in error:', error);
+      
+      // Log failed authentication attempt
+      try {
+        await supabase.from('security_audit_log').insert({
+          user_id: null,
+          action: 'failed_login',
+          table_name: 'auth.users',
+          new_values: { email, error: error.message },
+          ip_address: null,
+          user_agent: navigator.userAgent,
+        });
+      } catch (auditError) {
+        console.warn('Failed to log failed authentication:', auditError);
+      }
+      
+      return { data: null, error };
+    } finally {
+      setLoading(false);
     }
-    
-    return { data, error };
   };
 
   const signUp = async (email: string, password: string, userData?: Partial<Profile>) => {
