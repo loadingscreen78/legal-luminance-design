@@ -111,7 +111,7 @@ export const useAuth = () => {
         }
       }
 
-      return { data, error: null };
+      return { data, error: null, isAdmin: !!adminUser };
     } catch (error: any) {
       console.error('Sign in error:', error);
       
@@ -129,7 +129,7 @@ export const useAuth = () => {
         console.warn('Failed to log failed authentication:', auditError);
       }
       
-      return { data: null, error };
+      return { data: null, error, isAdmin: false };
     } finally {
       setLoading(false);
     }

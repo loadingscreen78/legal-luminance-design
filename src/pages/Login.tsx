@@ -84,20 +84,24 @@ const Login = () => {
           setIsSignUp(false);
           setLoading(false);
         } else {
-          const { error } = await signIn(email, password, loginType === 'admin' ? securityCode : undefined);
+          const { error, isAdmin } = await signIn(email, password, loginType === 'admin' ? securityCode : undefined);
           
           if (error) throw error;
           
           // Show success stage
           setLoaderStage('success');
           
-          // Wait for success animation, then redirect
+          // Wait for success animation, then redirect based on user type
           setTimeout(() => {
             setLoaderStage('redirecting');
             
             setTimeout(() => {
-              // Redirect to homepage instead of dashboards for smoother UX
-              navigate('/');
+              // Smart redirection based on admin status
+              if (loginType === 'admin' || isAdmin) {
+                navigate('/admin-dashboard');
+              } else {
+                navigate('/user-dashboard');
+              }
             }, 1500);
           }, 2000);
         }
