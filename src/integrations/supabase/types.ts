@@ -39,7 +39,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "admin_users_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "user_roles_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       order_items: {
         Row: {
@@ -125,7 +133,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       products: {
         Row: {
@@ -200,7 +216,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "user_roles_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       security_audit_log: {
         Row: {
@@ -239,7 +263,15 @@ export type Database = {
           user_agent?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "security_audit_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       transactions: {
         Row: {
@@ -287,7 +319,19 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      user_roles_view: {
+        Row: {
+          admin_since: string | null
+          email: string | null
+          full_name: string | null
+          id: string | null
+          permissions: Json | null
+          phone: string | null
+          role: string | null
+          user_created_at: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       create_order_with_items: {
@@ -307,6 +351,14 @@ export type Database = {
       get_current_user_admin_level: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      make_user_admin: {
+        Args: { admin_level_param?: string; user_email: string }
+        Returns: undefined
+      }
+      remove_admin_privileges: {
+        Args: { user_email: string }
+        Returns: undefined
       }
     }
     Enums: {
